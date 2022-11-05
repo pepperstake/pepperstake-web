@@ -1,6 +1,6 @@
 import { contracts } from "constants/contracts";
 import { DeployPepperStakeData } from "models/contractData";
-import { useContractWrite, useNetwork, usePrepareContractWrite } from "wagmi";
+import { useContractWrite, usePrepareContractWrite } from "wagmi";
 
 export function useDeployPepperStake(deployData: DeployPepperStakeData) {
   const { pepperStakeDeployer } = contracts.goerli;
