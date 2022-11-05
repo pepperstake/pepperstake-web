@@ -7,6 +7,8 @@ import { useStake } from "hooks/contract/useStake";
 import { useSponsor } from "hooks/contract/useSponsor";
 import { useReturnStake } from "hooks/contract/useReturnStake";
 import { usePostReturnWindowDistribution } from "hooks/contract/usePostReturnWindowDistribution";
+import { PushNotificationApiRequestPayload } from "pages/api/pushNotification";
+import axios from "axios";
 
 const JmillPage = () => {
   const deployData: DeployPepperStakeData = {
@@ -33,6 +35,17 @@ const JmillPage = () => {
   const { write: postReturnWindowDistribution } =
     usePostReturnWindowDistribution(pepperStakeContractAddress);
 
+  const sendPushNotification = async () => {
+    const data: PushNotificationApiRequestPayload = {
+      supervisorAddresses: ["0xCd2c0B1aD8c42e7b2c66d59B13935Bbd196b53ec"],
+    };
+    try {
+      await axios.post("/api/pushNotification", data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="bg-[#FDBBBB] mx-6 my-6 border border-2 rounded-3xl border-[#4A2222]">
@@ -53,6 +66,9 @@ const JmillPage = () => {
         <button onClick={() => postReturnWindowDistribution?.()}>
           Post Return Window Distribution
         </button>
+      </div>
+      <div className="bg-[#FDBBBB] mx-6 my-6 border border-2 rounded-3xl border-[#4A2222]">
+        <button onClick={sendPushNotification}>Notify Supervisors</button>
       </div>
     </>
   );
