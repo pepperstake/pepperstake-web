@@ -5,6 +5,7 @@ import React from "react";
 import { useContractWrite, usePrepareContractWrite } from "wagmi";
 import { DeployPepperStakeData } from "models/contractData";
 import { useDeployPepperStake } from "hooks/contract/deployer/useDeployPepperStake";
+import { useStake } from "hooks/contract/useStake";
 
 const JmillPage = () => {
   const deployData: DeployPepperStakeData = {
@@ -19,17 +20,21 @@ const JmillPage = () => {
     shouldUseSupervisorInactionGuard: true,
     metadataURI: "",
   };
+  const pepperStakeContractAddress =
+    "0x087C31ae9235D6eb19952Ff4A1035De17d7Dac87";
 
-  const { data, write } = useDeployPepperStake(deployData);
-
-  const handleDeployButtonClick = () => {
-    write?.();
-  };
+  const { write: deployPepperStake } = useDeployPepperStake(deployData);
+  const { write: stake } = useStake(pepperStakeContractAddress, "0.0001");
 
   return (
     <>
       <div className="bg-[#FDBBBB] mx-6 my-6 border border-2 rounded-3xl border-[#4A2222]">
-        <button onClick={handleDeployButtonClick}>Deploy PepperStake</button>
+        <button onClick={() => deployPepperStake?.()}>
+          Deploy PepperStake
+        </button>
+      </div>
+      <div className="bg-[#FDBBBB] mx-6 my-6 border border-2 rounded-3xl border-[#4A2222]">
+        <button onClick={() => stake?.()}>Stake</button>
       </div>
     </>
   );
