@@ -63,20 +63,25 @@ export default function PepperStake() {
                 {supervisorList.map(supervisor => (
                 <tr>
                     <td>
-                    <input 
-                    placeholder={supervisor}
-                    onChange={handleChange(supervisorList.indexOf(supervisor))}
-                    type="text" name="stake" id="stake" 
-                    className="mt-2 text-[#4A2222] text-lg font-bold placeholder:text-[#CE8888] placeholder:text-lg placeholder:font-bold py-4 px-4  block max-w-lg w-full bg-[#FAEEE2] rounded-lg focus:ring-indigo-500 focus:border-indigo-500  border-gray-300 rounded-md"/>
+                    <div className="flex mt-2">
+
+                        <input 
+                        placeholder={supervisor}
+                        onChange={handleChange(supervisorList.indexOf(supervisor))}
+                        type="text" name="stake" id="stake" 
+                        className="text-[#4A2222] text-lg font-bold placeholder:text-[#CE8888] placeholder:text-lg placeholder:font-bold py-4 px-4  block max-w-lg w-full bg-[#FAEEE2] rounded-l-md border-r-0 focus:ring-indigo-500 focus:border-indigo-500  border-gray-300 "/>
+                        
+                        <span className="font-bold text-[#4A2222] inline-flex items-center text-lg  bg-[#FAEEE2] rounded-r-md border-l-0  ">
+                            <button
+                            className="btn btn-outline-danger btn-sm"
+                            onClick={RemoveSpecificSupervisor(supervisorList.indexOf(supervisor))}
+                            >
+                            <img className='h-10 w-10 mx-4 mr-8 my-2' src='https://s2.loli.net/2022/11/05/K97QFX5nyMfuYCN.png' />
+                            </button>
+                        </span>
+                    </div>
                     </td>
-                    <td>
-                        <button
-                          className="btn btn-outline-danger btn-sm"
-                          onClick={RemoveSpecificSupervisor(supervisorList.indexOf(supervisor))}
-                        >
-                          <img className='h-10 w-10 mx-2 mt-4' src='https://s2.loli.net/2022/11/05/K97QFX5nyMfuYCN.png' />
-                        </button>
-                      </td>
+                    
                 </tr>
                 ))}
                 <tr>
@@ -121,7 +126,7 @@ export default function PepperStake() {
                 </div>
             </div>
 
-            
+
         </div>
 
         {/* 03 */}
