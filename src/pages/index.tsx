@@ -10,7 +10,7 @@ const Home: NextPage = () => {
         padding: 12,
       }}
     >
-      <ConnectButton />
+      <img src="https://s2.loli.net/2022/11/06/rEZIW7ByvQMjX4d.png" />
     </div>
   );
 };

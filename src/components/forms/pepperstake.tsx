@@ -1,11 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent } from "react";
 import React from "react";
-import Link from "next/link";
-import { DeployPepperStakeData } from "models/contractData";
-import { contracts } from "constants/contracts";
 import { parseEther } from "ethers/lib/utils";
-import { usePrepareContractWrite } from "wagmi";
 import { useDeployPepperStake } from "hooks/contract/deployer/useDeployPepperStake";
 
 interface CreateProjectFormInputs {
@@ -98,7 +94,7 @@ export default function PepperStake() {
     );
   };
 
-  const onSubmit: SubmitHandler<CreateProjectFormInputs> = () => {
+  const onSubmit = () => {
     console.log("submitting");
     console.log(deployData);
     console.log(write);
