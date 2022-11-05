@@ -4,6 +4,7 @@ import { parseEther } from "ethers/lib/utils";
 import React from "react";
 import { useContractWrite, usePrepareContractWrite } from "wagmi";
 import { DeployPepperStakeData } from "models/contractData";
+import { useDeployPepperStake } from "hooks/contract/deployer/useDeployPepperStake";
 
 const JmillPage = () => {
   const deployData: DeployPepperStakeData = {
@@ -19,15 +20,7 @@ const JmillPage = () => {
     metadataURI: "",
   };
 
-  const { pepperStakeDeployer } = contracts.goerli;
-  const { config } = usePrepareContractWrite({
-    addressOrName: pepperStakeDeployer.address,
-    contractInterface: pepperStakeDeployer.abi,
-    functionName: "deployPepperStake",
-    args: [...Object.values(deployData)],
-  });
-  console.log(pepperStakeDeployer.abi);
-  const { data, write } = useContractWrite(config);
+  const { data, write } = useDeployPepperStake(deployData);
 
   const handleDeployButtonClick = () => {
     write?.();
