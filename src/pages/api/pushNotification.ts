@@ -31,12 +31,12 @@ const handler = async (
       type: 3, // target
       identityType: 2, // direct payload
       notification: {
-        title: `[SDK-TEST] notification TITLE:`,
-        body: `[sdk-test] notification BODY`,
+        title: `I've completed my goal!`,
+        body: `Would you please return my PepperStake?`,
       },
       payload: {
-        title: `[sdk-test] payload title`,
-        body: `sample msg body`,
+        title: `I've completed my goal!`,
+        body: `Would you please return my PepperStake?`,
         cta: "",
         img: "",
       },
