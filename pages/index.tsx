@@ -1,4 +1,4 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+  import { ConnectButton } from '@rainbow-me/rainbowkit';
 import type { NextPage } from 'next';
 
 const Home: NextPage = () => {
@@ -10,7 +10,7 @@ const Home: NextPage = () => {
         padding: 12,
       }}
     >
-      <ConnectButton />
+      {/* <ConnectButton /> */}
     </div>
   );
 };

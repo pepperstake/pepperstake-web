@@ -1,6 +1,9 @@
 import "../styles/global.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
+import Layout from '../components/layout'
+import 'tailwindcss/tailwind.css'
+
 import {
   RainbowKitProvider,
   getDefaultWallets,
@@ -55,7 +58,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider appInfo={demoAppInfo} chains={chains}>
+        <Layout>
         <Component {...pageProps} />
+        </Layout>
       </RainbowKitProvider>
     </WagmiConfig>
   );
