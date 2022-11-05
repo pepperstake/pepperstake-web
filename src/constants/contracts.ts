@@ -4,7 +4,7 @@ import PepperStake from "constants/abi/PepperStake.json";
 export const contracts = {
   goerli: {
     pepperStakeDeployer: {
-      address: "0xfd0366D100C87f319Bc58B199D527De232f527c2",
+      address: "0x2d328072a0892925d6b9cdb017724d4978c04792",
       abi: pepperStakeDeployer.abi,
     },
     pepperStake: {

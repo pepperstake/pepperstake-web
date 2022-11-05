@@ -24,7 +24,7 @@ const JmillPage = () => {
     metadataURI: "",
   };
   const pepperStakeContractAddress =
-    "0x087C31ae9235D6eb19952Ff4A1035De17d7Dac87";
+    "0xE3a7e8FFE50807FE9f722C0AF32dcfbd8A3B8585";
 
   const { write: deployPepperStake } = useDeployPepperStake(deployData);
   const { write: stake } = useStake(pepperStakeContractAddress, "0.0001");
