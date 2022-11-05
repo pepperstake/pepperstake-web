@@ -1,0 +1,5 @@
+sources:
+  - name: pepperstake
+    handler:
+      graphql:
+        endpoint: https://api.studio.thegraph.com/query/37627/pepperstake-goerli-dev/0.0.5
