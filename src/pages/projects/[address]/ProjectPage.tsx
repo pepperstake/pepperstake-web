@@ -1,7 +1,15 @@
-import React from "react";
+// app main page
+import ProjectContent from "components/project/ProjectContent";
+import { useRouter } from "next/router";
+import ProjectProvider from "providers/ProjectProvider";
 
-const ProjectPage = () => {
-  return <div>Public ProjectPage</div>;
-};
+export default function ProjectPage() {
+  const router = useRouter();
+  const address = router.query.address as string;
 
-export default ProjectPage;
+  return (
+    <ProjectProvider address={address}>
+      <ProjectContent />
+    </ProjectProvider>
+  );
+}

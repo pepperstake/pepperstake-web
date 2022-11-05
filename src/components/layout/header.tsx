@@ -30,7 +30,7 @@ export default function FrontPage({ children }: Props) {
           </div>
 
           <div className="mr-0 items-center flex justify-end sm:flex md:flex md:flex-1 lg:w-0">
-            <Link href={"/projects/create"}>
+            <Link href={"/projects"}>
               <a style={{ cursor: "pointer" }}>
                 <img
                   className="w-3/4"
