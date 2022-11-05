@@ -425,7 +425,7 @@ export default function PepperStake() {
             </div>
 
             <div className="absolute w-60 bottom-16 right-14">
-              <Link href={"/stake/1"}>
+              <Link href={"/projects/1"}>
                   <img style={{ cursor: "pointer" }} src='https://s2.loli.net/2022/11/06/36iXh17WrmDNuJw.png' /> 
               </Link>
 
