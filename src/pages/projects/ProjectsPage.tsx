@@ -3,7 +3,6 @@ import Link from "next/link";
 
 const ProjectPage = () => {
   const { projects } = useAllProjects();
-  console.log(projects);
   return (
     <div>
       <h1>Projects</h1>

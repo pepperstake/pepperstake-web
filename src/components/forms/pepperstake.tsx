@@ -95,9 +95,6 @@ export default function PepperStake() {
   };
 
   const onSubmit = () => {
-    console.log("submitting");
-    console.log(deployData);
-    console.log(write);
     write?.();
   };
 
