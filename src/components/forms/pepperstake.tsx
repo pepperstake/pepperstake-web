@@ -3,6 +3,8 @@ import { ChangeEvent } from "react";
 import React from "react";
 import { parseEther } from "ethers/lib/utils";
 import { useDeployPepperStake } from "hooks/contract/deployer/useDeployPepperStake";
+import { PinMetadataRequestPayload } from "pages/api/pin-metadata";
+import axios from "axios";
 
 interface CreateProjectFormInputs {
   supervisors: string[];
@@ -14,7 +16,7 @@ interface CreateProjectFormInputs {
   shouldUseSupervisorInactionGuard: boolean;
   projectName: string;
   projectDescription: string;
-  imageUri: string;
+  image: any;
 }
 
 export default function PepperStake() {
@@ -36,12 +38,13 @@ export default function PepperStake() {
       shouldUseSupervisorInactionGuard: true,
       projectName: "",
       projectDescription: "",
-      imageUri: "",
+      image: undefined,
     },
   });
 
   const supervisors = watch("supervisors");
   const unreturnedStakeBeneficiaries = watch("unreturnedStakeBeneficiaries");
+  const [metadataUri, setMetadataUri] = React.useState<string>("");
   const deployData = {
     supervisors: supervisors,
     stakeAmount: parseEther(watch("stakeAmount")),
@@ -54,7 +57,7 @@ export default function PepperStake() {
       "shouldParticipantsShareUnreturnedStake"
     ),
     shouldUseSupervisorInactionGuard: watch("shouldUseSupervisorInactionGuard"),
-    metadataURI: "",
+    metadataUri,
   };
 
   const { write } = useDeployPepperStake(deployData);
@@ -94,8 +97,39 @@ export default function PepperStake() {
     );
   };
 
-  const onSubmit = () => {
-    write?.();
+  const uploadImage = async () => {
+    const data = new FormData();
+    const file = getValues("image");
+    data.append("file", file[0]);
+    const res = await axios.post("/api/pin-image", data, {
+      maxContentLength: Infinity, //this is needed to prevent axios from erroring out with large files
+      headers: {
+        "Content-Type": `multipart/form-data;`,
+      },
+    });
+    return res.data.cid;
+  };
+
+  const uploadMetadata = async (imageCid: string) => {
+    const { projectName, projectDescription } = getValues();
+    const data: PinMetadataRequestPayload = {
+      name: projectName,
+      description: projectDescription,
+      imageCid,
+    };
+    const res = await axios.post("/api/pin-metadata", data);
+    setMetadataUri(`ipfs://${res.data.cid}`);
+  };
+
+  const onSubmit = async () => {
+    try {
+      const imageCid = await uploadImage();
+      await uploadMetadata(imageCid);
+      console.log(deployData);
+      write?.();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -598,7 +632,12 @@ export default function PepperStake() {
                       src="https://s2.loli.net/2022/11/05/Ae5VFnuwxQp8ok1.png"
                     />
                   </a>
-                  {/* <input id="file-upload" type="file" onChange={uploadImage} accept="image/x-png,image/gif,image/jpeg"/> */}
+                  <input
+                    id="file-upload"
+                    type="file"
+                    accept="image/x-png,image/gif,image/jpeg"
+                    {...register("image")}
+                  />
                 </div>
               </div>
 
