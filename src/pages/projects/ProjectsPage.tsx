@@ -4,7 +4,6 @@ import { formatEther} from "ethers/lib/utils";
 
 const ProjectPage = () => {
   const { projects } = useAllProjects();
-  console.log(projects);
   return (
     <div className="my-10 mx-10">
         <div className="flex">

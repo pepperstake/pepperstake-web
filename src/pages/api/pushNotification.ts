@@ -48,7 +48,7 @@ const handler = async (
     if (apiResponse?.status === 204) {
       return res.status(200).json({ success: true });
     } else {
-      console.log("API repsonse: ", apiResponse);
+      console.error(apiResponse);
       return res.status(500).json({ error: "Failed to send notification." });
     }
   } catch (err) {

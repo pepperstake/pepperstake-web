@@ -42,7 +42,7 @@ const JmillPage = () => {
     try {
       await axios.post("/api/pushNotification", data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

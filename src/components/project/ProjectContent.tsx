@@ -1,24 +1,21 @@
 // app main page
+import ParticipantSectionContent from "components/project/ParticipantSectionContent";
 import SponsorSectionContent from "components/project/SponsorSectionContent";
 import { ProjectContext } from "contexts/ProjectContext";
-import { useRouter } from "next/router";
-import ProjectProvider from "providers/ProjectProvider";
+import { ProjectMetadataContext } from "contexts/ProjectMetadataContext";
 import React, { useContext } from "react";
 import { useState } from "react";
-import { fromWad, parseWad } from "utils/number";
+import { fromWad } from "utils/number";
 export default function ProjectContent() {
-  const title = "ETHSF";
+  const { name, description, imageUrl } = useContext(ProjectMetadataContext);
   const startDate = "2022-11-04";
   const endDate = "2022-11-06";
-  const description =
-    "ETH SF is a web3 hackathon that starts at 11/4/2022 and ends at 11/6/2022. We are awesome people and we give our participants their stake on time.";
   const inactionGuard = "true";
   const shareUnreturnedStake = "false";
   const totalCurrentStake = "10";
   const totalParticipants = "20";
 
   const { stakeAmount } = useContext(ProjectContext);
-  console.log(stakeAmount);
 
   const [creatorView, setCreatorView] = useState(true);
   const [supervisorView, setSupervisorView] = useState(false);
@@ -26,38 +23,32 @@ export default function ProjectContent() {
   const [sponsorView, setSponsorView] = useState(false);
 
   const [sponsorReward, setSponsorReward] = useState(0.5);
-  const daysRemaining = 2;
 
   const isSupervisor = true;
-  const isParticipant = true;
 
   const toggleCreatorView = () => {
     setCreatorView(true);
     setSupervisorView(false);
     setParticipantsView(false);
     setSponsorView(false);
-    console.log("creatorView");
   };
   const toggleSupervisorsView = () => {
     setCreatorView(false);
     setSupervisorView(true);
     setParticipantsView(false);
     setSponsorView(false);
-    console.log("supervisorView");
   };
   const toggleParticipantsView = () => {
     setCreatorView(false);
     setSupervisorView(false);
     setParticipantsView(true);
     setSponsorView(false);
-    console.log("participantsView");
   };
   const toggleSponsorView = () => {
     setCreatorView(false);
     setSupervisorView(false);
     setParticipantsView(false);
     setSponsorView(true);
-    console.log("sponsorView");
   };
 
   const activityList = [
@@ -134,19 +125,12 @@ export default function ProjectContent() {
     }
   };
 
-  const sendSponsorReward = () => {
-    console.log("sponsor reward sent");
-  };
-
   return (
     <div className="bg-[#FDBBBB] mx-6 my-6 border border-2 rounded-3xl border-[#4A2222]">
       <div className="flex mx-24  mt-16">
-        <img
-          className="h-44 w-44"
-          src="https://s2.loli.net/2022/11/06/quhZY5Lje7gD2tk.png"
-        />
+        <img className="h-44 w-44" src={imageUrl} />
         <p className="mx-10 font-mono text-[#4A2222] text-5xl font-bold">
-          {title}
+          {name}
           <p className="mt-2 flex-row text-sm font-normal">
             Starts: <b>{startDate}</b> Ends:<b>{endDate}</b>
           </p>
@@ -289,49 +273,7 @@ export default function ProjectContent() {
             </>
           )}
 
-          {participantsView && isParticipant && (
-            <>
-              <div className="flex">
-                <img
-                  className="mx-10 my-10 w-48"
-                  src="https://s2.loli.net/2022/11/06/HdJQpCD4hbLyFtm.png"
-                />
-                <div className=" mx-5 mt-20">
-                  <p className=" font-mono font-bold text-black">
-                    YOU HAVE STAKED FOR THIS PROJECT
-                    <a style={{ cursor: "pointer" }}>
-                      <b className="text-[#CE8888]"> view txn</b>
-                    </a>
-                  </p>
-                  <p className=" mt-6 font-mono font-bold text-black">
-                    RETURN WINDOW IN{" "}
-                    <b className="font-bold text-5xl">{daysRemaining}</b> DAYS
-                  </p>
-                </div>
-              </div>
-            </>
-          )}
-
-          {participantsView && !isParticipant && (
-            <>
-              <div className="flex">
-                <img
-                  className="mx-10 my-10 w-48"
-                  src="https://s2.loli.net/2022/11/06/nGhgd1THQJ6KAFD.png"
-                />
-                <div className=" mx-5 mt-20">
-                  <p className=" font-mono font-bold text-black">
-                    YOU HAVE NOT STAKE FOR THIS PROJECT YET
-                  </p>
-                  <img
-                    style={{ cursor: "pointer" }}
-                    className="h-10 mt-4 mx-20"
-                    src="https://s2.loli.net/2022/11/06/vCBINbpy5QVkg4i.png"
-                  />
-                </div>
-              </div>
-            </>
-          )}
+          {participantsView && <ParticipantSectionContent />}
 
           {sponsorView && <SponsorSectionContent />}
         </div>

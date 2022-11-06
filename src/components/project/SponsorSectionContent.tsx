@@ -1,11 +1,30 @@
+import { ProjectContext } from "contexts/ProjectContext";
+import { BigNumber } from "ethers";
 import { useSponsor } from "hooks/contract/useSponsor";
-import React from "react";
+import useDebounce from "hooks/useDebounce";
+import React, { useContext, useEffect } from "react";
+import { parseWad } from "utils/number";
 
 const SponsorSectionContent = () => {
   const [sponsorReward, setSponsorReward] = React.useState("");
-  // const { write } = useSponsor();
+  const [amount, setAmount] = React.useState(BigNumber.from(0));
+  const debouncedSponsorReward = useDebounce(amount, 500);
+  const { write } = useSponsor(amount, {
+    enabled: Boolean(debouncedSponsorReward),
+  });
 
-  const handleSponsor = () => {};
+  useEffect(() => {
+    try {
+      setAmount(parseWad(sponsorReward));
+    } catch {
+      return;
+    }
+  }, [sponsorReward]);
+
+  const handleSponsor = () => {
+    write?.();
+  };
+
   return (
     <>
       <div className="flex pr-10">

@@ -9,7 +9,6 @@ export default function ProjectProvider({
   address: string | undefined;
 }>) {
   const project = useProjectState({ address });
-  console.log(project);
 
   return (
     <ProjectContext.Provider value={project}>
