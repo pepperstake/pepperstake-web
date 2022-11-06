@@ -35,7 +35,7 @@ const Home: NextPage = () => {
         <img src="https://s2.loli.net/2022/11/06/u3OAtkxsh2YNgpo.png" />
         <img src="https://s2.loli.net/2022/11/06/cFYWaiv6lyMoTrz.png" />
         <img src="https://s2.loli.net/2022/11/06/D7PNMiLdhHwsB8x.png" />
-        <img src="https://s2.loli.net/2022/11/06/ho13NKupa76Jn59.png" />
+        {/* <img src="https://s2.loli.net/2022/11/06/ho13NKupa76Jn59.png" /> */}
 
         </>
   );
