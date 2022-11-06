@@ -586,7 +586,6 @@ export default function PepperStake() {
                 <textarea
                   placeholder="Description"
                   rows={5}
-                  name="description"
                   id="description"
                   className="text-[#4A2222] text-lg font-bold placeholder:text-[#CE8888] placeholder:text-lg placeholder:font-bold py-4 px-4  block max-w-lg w-full bg-[#FAEEE2] rounded-xl focus:ring-indigo-500 focus:border-indigo-500  border-gray-300 rounded-xl"
                   {...register("projectDescription")}

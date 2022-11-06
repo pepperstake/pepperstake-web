@@ -19,12 +19,9 @@
     "next": "^12.1.6",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-<<<<<<< HEAD
     "react-dropdown": "^1.11.0",
     "react-notifications-menu": "^1.0.6",
-=======
     "react-hook-form": "^7.39.1",
->>>>>>> 3ac1813ccba1ea778ab17c96f5ee079c29400d73
     "urql": "^3.0.3",
     "wagmi": "0.6.8"
   },
