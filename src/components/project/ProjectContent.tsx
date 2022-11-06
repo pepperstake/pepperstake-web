@@ -202,8 +202,11 @@ export default function ProjectContent() {
               <div className="mx-5 my-5">
                 <>
                   <p className="font-bold font-mono">Activities</p>
-                  {activityList.map((activity) => (
-                    <div className="my-4 rounded-3xl h-16 bg-[#E9DDD1]">
+                  {activityList.map((activity, idx) => (
+                    <div
+                      className="my-4 rounded-3xl h-16 bg-[#E9DDD1]"
+                      key={idx}
+                    >
                       {renderFn(activity)}
                     </div>
                   ))}
@@ -229,8 +232,11 @@ export default function ProjectContent() {
                       Select All
                     </p>
                   </div>
-                  {participantsList.map((participant) => (
-                    <div className=" flex my-4 rounded-3xl h-16 bg-[#E9DDD1]">
+                  {participantsList.map((participant, idx) => (
+                    <div
+                      className=" flex my-4 rounded-3xl h-16 bg-[#E9DDD1]"
+                      key={idx}
+                    >
                       <input
                         id="default-checkbox"
                         type="checkbox"

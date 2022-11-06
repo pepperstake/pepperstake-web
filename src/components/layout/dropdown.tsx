@@ -32,7 +32,7 @@ export default function Dropdown() {
         />
         {isOpen && (
           <>
-            <div className="mt-2 h-96 w-60 absolute bg-[#E9DDD1] border border-2 border-black rounded-xl">
+            <div className="mt-2 h-fit w-60 absolute bg-[#E9DDD1] border border-2 border-black rounded-xl">
               {isOpen &&
                 notifications
                   .slice(1)
