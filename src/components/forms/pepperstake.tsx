@@ -188,7 +188,6 @@ const contractCreationNotify = () => toast.success("PepperStake Contract ready f
     try {
       const imageCid = await uploadImage();
       await uploadMetadata(imageCid);
-      console.log(deployData);
       write?.();
       contractCreationNotify();
     } catch (err) {
@@ -675,25 +674,24 @@ const contractCreationNotify = () => toast.success("PepperStake Contract ready f
               </div>
 
               <div className="content-center mt-4 h-48 text-lg font-bold  py-4 px-4  block max-w-lg w-full bg-[#FAEEE2] rounded-xl  border-gray-300">
-                  {/* <div className="h-24 w-24 mx-24 border border-2 border-black rounded-xl">
-                      {image &&  <img  src={image} alt="img" className="h-24 w-24 rounded-xl" />}
-                  </div> */}
-                <div className="my-14 mx-20 ">
-                 
-                <label htmlFor="file-upload" className="custom-file-upload" style={{ cursor: "pointer" }}>
-
-                  <a style={{ cursor: "pointer" }}>
-                    <img
-                      className=""
-                      src="https://s2.loli.net/2022/11/05/Ae5VFnuwxQp8ok1.png"
+                <div className="my-16 mx-20 ">
+                  <label
+                    htmlFor="file-upload"
+                    className="custom-file-upload"
+                    style={{ cursor: "pointer" }}
+                  >
+                    <a style={{ cursor: "pointer" }}>
+                      <img
+                        className=""
+                        src="https://s2.loli.net/2022/11/05/Ae5VFnuwxQp8ok1.png"
+                      />
+                    </a>
+                    <input
+                      id="file-upload"
+                      type="file"
+                      accept="image/x-png,image/gif,image/jpeg"
+                      {...register("image")}
                     />
-                  </a>
-                  <input
-                    id="file-upload"
-                    type="file"
-                    accept="image/x-png,image/gif,image/jpeg"
-                    {...register("image")}
-                  />
                   </label>
                 </div>
               </div>

@@ -2,19 +2,21 @@ import { NextApiRequest, NextApiResponse } from "next";
 import * as PushAPI from "@pushprotocol/restapi";
 import * as ethers from "ethers";
 
-export interface PushNotificationApiRequestPayload {
+export interface PingSponsorApiRequestPayload {
   supervisorAddresses: string[];
+  userAddress: string;
+  pepperStakeAddress: string;
 }
 
 interface PushNotificationApiRequest extends NextApiRequest {
-  body: PushNotificationApiRequestPayload;
+  body: PingSponsorApiRequestPayload;
 }
 
 const handler = async (
   req: PushNotificationApiRequest,
   res: NextApiResponse
 ) => {
-  const { supervisorAddresses } = req.body;
+  const { supervisorAddresses, userAddress, pepperStakeAddress } = req.body;
   const signerKey = process.env.PUSH_SENDER_DELEGATE_KEY;
   const channelAddress = process.env.PUSH_CHANNEL_ADDRESS;
   if (!signerKey) {
@@ -35,9 +37,9 @@ const handler = async (
         body: `Would you please return my PepperStake?`,
       },
       payload: {
-        title: `I've completed my goal!`,
-        body: `Would you please return my PepperStake?`,
-        cta: "",
+        title: `Hey, I've completed my goal!`,
+        body: `Hey supervisors, it's ${userAddress} here. I've completed my goal and would like to get my stake back. You can help me out by clicking this notification then clicking supervisor view.`,
+        cta: `/projects/${pepperStakeAddress}`,
         img: "",
       },
       recipients: formattedSupervisorAddresses,

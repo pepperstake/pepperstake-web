@@ -129,7 +129,7 @@ export default function ProjectContent() {
     <div className="bg-[#FDBBBB] mx-6 my-6 border border-2 rounded-3xl border-[#4A2222]">
       <div className="flex mx-24  mt-16">
         <img className="h-44 w-44" src={imageUrl} />
-        <p className="mx-10 font-mono text-[#4A2222] text-5xl font-bold">
+        <div className="mx-10 font-mono text-[#4A2222] text-5xl font-bold">
           {name}
           <p className="mt-2 flex-row text-sm font-normal">
             Starts: <b>{startDate}</b> Ends:<b>{endDate}</b>
@@ -148,7 +148,7 @@ export default function ProjectContent() {
               <b>view list</b>
             </a>
           </p>
-        </p>
+        </div>
       </div>
 
       <div className="flex mx-32  mt-10">

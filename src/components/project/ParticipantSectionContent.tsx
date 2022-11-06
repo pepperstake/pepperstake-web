@@ -1,9 +1,26 @@
+import { ProjectContext } from "contexts/ProjectContext";
 import { useStake } from "hooks/contract/useStake";
 import { useIsParticipant } from "hooks/graph/useIsParticipant";
-import React from "react";
+import React, { useContext } from "react";
+import { sendPingSponsorPushNotification } from "utils/push";
+import { useAccount } from "wagmi";
 
 const IsParticipantContent = () => {
   const daysRemaining = 2;
+  const { address } = useAccount();
+  const { supervisors, address: pepperstakeAddress } =
+    useContext(ProjectContext);
+
+  const handlePingSponsor = async () => {
+    if (!supervisors || !address || !pepperstakeAddress) {
+      return;
+    }
+    await sendPingSponsorPushNotification(
+      supervisors,
+      address,
+      pepperstakeAddress
+    );
+  };
 
   return (
     <div className="flex">
@@ -30,6 +47,7 @@ const IsParticipantContent = () => {
         <img className="h-10 mt-6 ml-4" src="https://s2.loli.net/2022/11/06/BGr5UDPYn7fEbtA.png"></img>
         </a>
         </div>
+        <button onClick={handlePingSponsor}>Ping your Sponsors</button>
       </div>
     </div>
   );
