@@ -16,7 +16,7 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
-import { UrqlProvider } from "providers/urqlProvider";
+import UrqlProvider from "providers/urqlProvider";
 import ReactQueryProvider from "providers/ReactQueryProvider";
 
 const { chains, provider, webSocketProvider } = configureChains(
