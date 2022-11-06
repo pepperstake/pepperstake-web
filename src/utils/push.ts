@@ -13,7 +13,6 @@ export const sendPingSponsorPushNotification = async (
     pepperStakeAddress,
   };
   try {
-    console.log('here')
     await axios.post("/api/ping-sponsor", data);
   } catch (error) {
     console.error(error);

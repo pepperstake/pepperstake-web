@@ -5,8 +5,8 @@ import { parseEther } from "ethers/lib/utils";
 import { useDeployPepperStake } from "hooks/contract/deployer/useDeployPepperStake";
 import { PinMetadataRequestPayload } from "pages/api/pin-metadata";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface CreateProjectFormInputs {
   supervisors: string[];
@@ -22,43 +22,50 @@ interface CreateProjectFormInputs {
 }
 
 export default function PepperStake() {
+  const noSupervisorNotify = () =>
+    toast.info("Please fill out at least one supervisor 😉", {
+      position: "bottom-right",
+      theme: "dark",
+    });
 
-const noSupervisorNotify = () => toast.info("Please fill out at least one supervisor 😉", {
-    position: "bottom-right",
-    theme: "dark"
-});
+  const noStakeAmountNotify = () =>
+    toast.info("Please fill out the amount you want to stake 😉", {
+      position: "bottom-right",
+      theme: "dark",
+    });
 
-const noStakeAmountNotify = () => toast.info("Please fill out the amount you want to stake 😉", {
-  position: "bottom-right",
-  theme: "dark"
-});
+  const noMetadataNotify = () =>
+    toast.info(
+      "Please fill out the metadata and upload a cool image for your stake! 😉",
+      {
+        position: "bottom-right",
+        theme: "dark",
+      }
+    );
 
+  const imageUploadedNotify = () =>
+    toast.success("Image uploaded! 🥳", {
+      position: "bottom-right",
+      theme: "light",
+    });
 
-const noMetadataNotify = () => toast.info("Please fill out the metadata and upload a cool image for your stake! 😉", {
-  position: "bottom-right",
-  theme: "dark"
-});
+  const uploadImageToIpfsNotify = () =>
+    toast.info("Uploading image to IPFS...", {
+      position: "bottom-right",
+      theme: "light",
+    });
 
-const imageUploadedNotify = () => toast.success("Image uploaded! 🥳", {
-  position: "bottom-right",
-  theme: "light"
-});
+  const uploadMetadataToIpfsNotify = () =>
+    toast.info("Uploading metadata to IPFS...", {
+      position: "bottom-right",
+      theme: "light",
+    });
 
-const uploadImageToIpfsNotify = () => toast.info("Uploading image to IPFS...", {
-  position: "bottom-right",
-  theme: "light"
-});
-
-const uploadMetadataToIpfsNotify = () => toast.info("Uploading metadata to IPFS...", {
-  position: "bottom-right",
-  theme: "light"
-});
-
-const contractCreationNotify = () => toast.success("PepperStake Contract ready for deploy! 🎉", {
-  position: "bottom-right",
-  theme: "light"
-});
-
+  const contractCreationNotify = () =>
+    toast.success("PepperStake Contract ready for deploy! 🎉", {
+      position: "bottom-right",
+      theme: "light",
+    });
 
   const {
     register,
@@ -86,10 +93,10 @@ const contractCreationNotify = () => toast.success("PepperStake Contract ready f
   const unreturnedStakeBeneficiaries = watch("unreturnedStakeBeneficiaries");
   const image = watch("image");
   useEffect(() => {
-    if(image && image.length!=0){
+    if (image && image.length != 0) {
       imageUploadedNotify();
     }
-  }, [image])
+  }, [image]);
   const [metadataUri, setMetadataUri] = React.useState<string>("");
   const deployData = {
     supervisors: supervisors,
@@ -170,20 +177,22 @@ const contractCreationNotify = () => toast.success("PepperStake Contract ready f
   };
 
   const onSubmit = async () => {
-    console.log("img", getValues("image"));
-    if(getValues("supervisors").length === 0){
+    if (getValues("supervisors").length === 0) {
       noSupervisorNotify();
-        return;
+      return;
     }
-    if(!getValues("stakeAmount") || getValues("stakeAmount") === "0"){
+    if (!getValues("stakeAmount") || getValues("stakeAmount") === "0") {
       noStakeAmountNotify();
       return;
     }
-    if(getValues("image").length===0 || getValues("projectName")==="" || getValues("projectDescription")===""){
+    if (
+      getValues("image").length === 0 ||
+      getValues("projectName") === "" ||
+      getValues("projectDescription") === ""
+    ) {
       noMetadataNotify();
       return;
     }
-
 
     try {
       const imageCid = await uploadImage();
@@ -191,7 +200,7 @@ const contractCreationNotify = () => toast.success("PepperStake Contract ready f
       write?.();
       contractCreationNotify();
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -651,8 +660,6 @@ const contractCreationNotify = () => toast.success("PepperStake Contract ready f
                   <p className="flex relative justify-start font-bold text-xs pb-2">
                     {`Metadata  `}{" "}
                   </p>
-
-              
                 </div>
                 <input
                   placeholder="Project Name"
@@ -709,8 +716,7 @@ const contractCreationNotify = () => toast.success("PepperStake Contract ready f
           </div>
         </div>
       </form>
-      <ToastContainer className="toast-container"  pauseOnFocusLoss={false}/>
-
+      <ToastContainer className="toast-container" pauseOnFocusLoss={false} />
     </>
   );
 }
