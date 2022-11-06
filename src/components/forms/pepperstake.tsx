@@ -1,10 +1,12 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import React from "react";
 import { parseEther } from "ethers/lib/utils";
 import { useDeployPepperStake } from "hooks/contract/deployer/useDeployPepperStake";
 import { PinMetadataRequestPayload } from "pages/api/pin-metadata";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface CreateProjectFormInputs {
   supervisors: string[];
@@ -20,6 +22,44 @@ interface CreateProjectFormInputs {
 }
 
 export default function PepperStake() {
+
+const noSupervisorNotify = () => toast.info("Please fill out at least one supervisor 😉", {
+    position: "bottom-right",
+    theme: "dark"
+});
+
+const noStakeAmountNotify = () => toast.info("Please fill out the amount you want to stake 😉", {
+  position: "bottom-right",
+  theme: "dark"
+});
+
+
+const noMetadataNotify = () => toast.info("Please fill out the metadata and upload a cool image for your stake! 😉", {
+  position: "bottom-right",
+  theme: "dark"
+});
+
+const imageUploadedNotify = () => toast.success("Image uploaded! 🥳", {
+  position: "bottom-right",
+  theme: "light"
+});
+
+const uploadImageToIpfsNotify = () => toast.info("Uploading image to IPFS...", {
+  position: "bottom-right",
+  theme: "light"
+});
+
+const uploadMetadataToIpfsNotify = () => toast.info("Uploading metadata to IPFS...", {
+  position: "bottom-right",
+  theme: "light"
+});
+
+const contractCreationNotify = () => toast.success("PepperStake Contract ready for deploy! 🎉", {
+  position: "bottom-right",
+  theme: "light"
+});
+
+
   const {
     register,
     handleSubmit,
@@ -31,7 +71,7 @@ export default function PepperStake() {
     defaultValues: {
       supervisors: [""],
       stakeAmount: "0.05",
-      unreturnedStakeBeneficiaries: [""],
+      unreturnedStakeBeneficiaries: [],
       returnWindowDays: "30",
       maxParticipants: "100",
       shouldParticipantsShareUnreturnedStake: false,
@@ -44,6 +84,12 @@ export default function PepperStake() {
 
   const supervisors = watch("supervisors");
   const unreturnedStakeBeneficiaries = watch("unreturnedStakeBeneficiaries");
+  const image = watch("image");
+  useEffect(() => {
+    if(image && image.length!=0){
+      imageUploadedNotify();
+    }
+  }, [image])
   const [metadataUri, setMetadataUri] = React.useState<string>("");
   const deployData = {
     supervisors: supervisors,
@@ -98,6 +144,7 @@ export default function PepperStake() {
   };
 
   const uploadImage = async () => {
+    uploadImageToIpfsNotify();
     const data = new FormData();
     const file = getValues("image");
     data.append("file", file[0]);
@@ -111,6 +158,7 @@ export default function PepperStake() {
   };
 
   const uploadMetadata = async (imageCid: string) => {
+    uploadMetadataToIpfsNotify();
     const { projectName, projectDescription } = getValues();
     const data: PinMetadataRequestPayload = {
       name: projectName,
@@ -122,11 +170,27 @@ export default function PepperStake() {
   };
 
   const onSubmit = async () => {
+    console.log("img", getValues("image"));
+    if(getValues("supervisors").length === 0){
+      noSupervisorNotify();
+        return;
+    }
+    if(!getValues("stakeAmount") || getValues("stakeAmount") === "0"){
+      noStakeAmountNotify();
+      return;
+    }
+    if(getValues("image").length===0 || getValues("projectName")==="" || getValues("projectDescription")===""){
+      noMetadataNotify();
+      return;
+    }
+
+
     try {
       const imageCid = await uploadImage();
       await uploadMetadata(imageCid);
       console.log(deployData);
       write?.();
+      contractCreationNotify();
     } catch (err) {
       console.log(err);
     }
@@ -589,20 +653,7 @@ export default function PepperStake() {
                     {`Metadata  `}{" "}
                   </p>
 
-                  <div className="flex relative  ml-52 mb-1 justify-end ">
-                    <label
-                      htmlFor="checked-toggle3"
-                      className=" relative cursor-pointer"
-                    >
-                      <input
-                        type="checkbox"
-                        value=""
-                        id="checked-toggle3"
-                        className="sr-only peer"
-                      />
-                      <div className="  border border-2 border-[#4A2222] w-11 h-6 bg-[#E9DDD1] rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300   peer-checked:after:translate-x-full peer-checked:after:border-[#4A2222] after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-[#4A2222] after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-[#CE8888]"></div>
-                    </label>
-                  </div>
+              
                 </div>
                 <input
                   placeholder="Project Name"
@@ -624,7 +675,11 @@ export default function PepperStake() {
               </div>
 
               <div className="content-center mt-4 h-48 text-lg font-bold  py-4 px-4  block max-w-lg w-full bg-[#FAEEE2] rounded-xl  border-gray-300">
-                <div className="my-16 mx-20 ">
+                  {/* <div className="h-24 w-24 mx-24 border border-2 border-black rounded-xl">
+                      {image &&  <img  src={image} alt="img" className="h-24 w-24 rounded-xl" />}
+                  </div> */}
+                <div className="my-14 mx-20 ">
+                 
                 <label htmlFor="file-upload" className="custom-file-upload" style={{ cursor: "pointer" }}>
 
                   <a style={{ cursor: "pointer" }}>
@@ -656,6 +711,8 @@ export default function PepperStake() {
           </div>
         </div>
       </form>
+      <ToastContainer className="toast-container"  pauseOnFocusLoss={false}/>
+
     </>
   );
 }

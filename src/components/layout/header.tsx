@@ -44,7 +44,13 @@ const defaultOption = options[0];
                 <p className="pr-6 font-bold font-mono ">Projects</p>
               </a>
             </Link>
+            <Link href={"/projects/me"}>
+              <a style={{ cursor: "pointer" }}>
+                <p className="pr-6 font-bold font-mono ">My Stakes</p>
+              </a>
+            </Link>
             <div className="mr-6">
+              
             <ConnectButton />
             </div>
           </div>

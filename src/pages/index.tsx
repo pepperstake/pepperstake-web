@@ -6,7 +6,7 @@ const Home: NextPage = () => {
   const totalProjects=947;
   const totalMoney=50283;
   const totalParticipants=54998;
-  return (
+  return (<>
     <div className="flex">
       <div className=" absolute w-3/4">
 
@@ -47,9 +47,15 @@ const Home: NextPage = () => {
       </div>
       
 
-      <img src="https://s2.loli.net/2022/11/06/INauPdXBgLEJ1iw.png" />
+  
 
     </div>
+        <img src="https://s2.loli.net/2022/11/06/INauPdXBgLEJ1iw.png" />
+        <img src="https://s2.loli.net/2022/11/06/u3OAtkxsh2YNgpo.png" />
+        <img src="https://s2.loli.net/2022/11/06/cFYWaiv6lyMoTrz.png" />
+        <img src="https://s2.loli.net/2022/11/06/D7PNMiLdhHwsB8x.png" />
+        <img src="https://s2.loli.net/2022/11/06/ho13NKupa76Jn59.png" />
+        </>
   );
 };
 
