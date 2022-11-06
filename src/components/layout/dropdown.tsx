@@ -1,3 +1,4 @@
+import DropdownNotification from "components/DropdownNotification";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { checkNotifications } from "utils/push";
@@ -9,15 +10,10 @@ export default function Dropdown() {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    console.log("hey");
-  }, [isOpen]);
-
-  useEffect(() => {
     const interval = setInterval(() => {
       if (address) {
         checkNotifications(address).then((notifications) => {
           setNotifications(notifications);
-          console.log(notifications);
         });
       }
     }, 5000);
@@ -38,18 +34,14 @@ export default function Dropdown() {
           <>
             <div className="mt-2 h-96 w-60 absolute bg-[#E9DDD1] border border-2 border-black rounded-xl">
               {isOpen &&
-                notifications.map((notification: any) => (
-                  <>
-                    <a href={notification.cta}>
-                      <div className=" mx-2 my-2 border border-2 border-black rounded-xl bg-[#FDBBBB]">
-                        <div className="mx-2 my-2">
-                          <p>{notification.title}</p>
-                          <p>{notification.message}</p>
-                        </div>
-                      </div>
-                    </a>
-                  </>
-                ))}
+                notifications
+                  .slice(1)
+                  .map((notification, idx) => (
+                    <DropdownNotification
+                      notification={notification}
+                      key={idx}
+                    />
+                  ))}
             </div>
           </>
         )}
