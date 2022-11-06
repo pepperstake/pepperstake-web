@@ -4,7 +4,16 @@ import { useQuery } from "urql";
 const allProjectsQuery = gql`
   query allProjectsQuery {
     pepperStakeContracts {
-      address
+      address,
+      creator,
+      supervisors,
+      stakeAmount,
+      unreturnedStakeBeneficiaries,
+      returnWindowDays,
+      maxParticipants,
+      shouldParticipantsShareUnreturnedStake,
+      shouldUseSupervisorInactionGuard
+
     }
   }
 `;
