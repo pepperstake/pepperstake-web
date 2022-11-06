@@ -1,8 +1,6 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
-
+import Dropdown from "./dropdown";
 
 type Props = {
   children: React.ReactNode;
@@ -40,21 +38,15 @@ const defaultOption = options[0];
 
           <div className="mr-0 items-center flex justify-end sm:flex md:flex md:flex-1 lg:w-0">
           {/* <Dropdown options={options} value={defaultOption} placeholder="Select an option" /> */}
-
+            <Dropdown />
             <Link href={"/projects"}>
               <a style={{ cursor: "pointer" }}>
                 <p className="pr-6 font-bold font-mono ">Projects</p>
               </a>
             </Link>
-            <Link href={"/projects/create"}>
-              <a style={{ cursor: "pointer" }}>
-                <img
-                  className="w-3/4"
-                  src="https://s2.loli.net/2022/11/05/nOS1Zxv5fDi2tlJ.png"
-                />
-              </a>
-            </Link>
+            <div className="mr-6">
             <ConnectButton />
+            </div>
           </div>
         </nav>
 

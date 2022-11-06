@@ -1,7 +1,6 @@
 import { useAllProjects } from "hooks/graph/useAllProjects";
 import Link from "next/link";
 import { formatEther} from "ethers/lib/utils";
-
 const PersonalProjectPage = () => {
   const { projects } = useAllProjects();
   console.log(projects);
