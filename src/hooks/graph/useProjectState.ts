@@ -7,6 +7,7 @@ const projectQuery = gql`
     pepperStakeContract(id: $address) {
       address
       stakeAmount
+      metadataURI
     }
   }
 `;
@@ -20,9 +21,11 @@ export function useProjectState({ address }: { address: string | undefined }) {
   });
   const { data } = result;
   const stakeAmount = data?.pepperStakeContract?.stakeAmount;
+  const metadataURI = data?.pepperStakeContract?.metadataURI;
   const project: ProjectContextType = {
     address,
     stakeAmount,
+    metadataURI,
   };
 
   return project;

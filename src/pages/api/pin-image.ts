@@ -27,7 +27,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       const file = files.file as formidable.File;
-      console.log(file);
       const blob = new Blob([fs.readFileSync(file.filepath)]);
       const cid = await client.storeBlob(blob);
       return res.status(200).json({ cid });
