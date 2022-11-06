@@ -1,11 +1,10 @@
 // app main page
+import ParticipantSectionContent from "components/project/ParticipantSectionContent";
 import SponsorSectionContent from "components/project/SponsorSectionContent";
 import { ProjectContext } from "contexts/ProjectContext";
-import { useRouter } from "next/router";
-import ProjectProvider from "providers/ProjectProvider";
 import React, { useContext } from "react";
 import { useState } from "react";
-import { fromWad, parseWad } from "utils/number";
+import { fromWad } from "utils/number";
 export default function ProjectContent() {
   const title = "ETHSF";
   const startDate = "2022-11-04";
@@ -18,7 +17,6 @@ export default function ProjectContent() {
   const totalParticipants = "20";
 
   const { stakeAmount } = useContext(ProjectContext);
-  console.log(stakeAmount);
 
   const [creatorView, setCreatorView] = useState(true);
   const [supervisorView, setSupervisorView] = useState(false);
@@ -26,38 +24,32 @@ export default function ProjectContent() {
   const [sponsorView, setSponsorView] = useState(false);
 
   const [sponsorReward, setSponsorReward] = useState(0.5);
-  const daysRemaining = 2;
 
   const isSupervisor = true;
-  const isParticipant = true;
 
   const toggleCreatorView = () => {
     setCreatorView(true);
     setSupervisorView(false);
     setParticipantsView(false);
     setSponsorView(false);
-    console.log("creatorView");
   };
   const toggleSupervisorsView = () => {
     setCreatorView(false);
     setSupervisorView(true);
     setParticipantsView(false);
     setSponsorView(false);
-    console.log("supervisorView");
   };
   const toggleParticipantsView = () => {
     setCreatorView(false);
     setSupervisorView(false);
     setParticipantsView(true);
     setSponsorView(false);
-    console.log("participantsView");
   };
   const toggleSponsorView = () => {
     setCreatorView(false);
     setSupervisorView(false);
     setParticipantsView(false);
     setSponsorView(true);
-    console.log("sponsorView");
   };
 
   const activityList = [
@@ -132,10 +124,6 @@ export default function ProjectContent() {
       default:
         return null;
     }
-  };
-
-  const sendSponsorReward = () => {
-    console.log("sponsor reward sent");
   };
 
   return (
@@ -289,49 +277,7 @@ export default function ProjectContent() {
             </>
           )}
 
-          {participantsView && isParticipant && (
-            <>
-              <div className="flex">
-                <img
-                  className="mx-10 my-10 w-48"
-                  src="https://s2.loli.net/2022/11/06/HdJQpCD4hbLyFtm.png"
-                />
-                <div className=" mx-5 mt-20">
-                  <p className=" font-mono font-bold text-black">
-                    YOU HAVE STAKED FOR THIS PROJECT
-                    <a style={{ cursor: "pointer" }}>
-                      <b className="text-[#CE8888]"> view txn</b>
-                    </a>
-                  </p>
-                  <p className=" mt-6 font-mono font-bold text-black">
-                    RETURN WINDOW IN{" "}
-                    <b className="font-bold text-5xl">{daysRemaining}</b> DAYS
-                  </p>
-                </div>
-              </div>
-            </>
-          )}
-
-          {participantsView && !isParticipant && (
-            <>
-              <div className="flex">
-                <img
-                  className="mx-10 my-10 w-48"
-                  src="https://s2.loli.net/2022/11/06/nGhgd1THQJ6KAFD.png"
-                />
-                <div className=" mx-5 mt-20">
-                  <p className=" font-mono font-bold text-black">
-                    YOU HAVE NOT STAKE FOR THIS PROJECT YET
-                  </p>
-                  <img
-                    style={{ cursor: "pointer" }}
-                    className="h-10 mt-4 mx-20"
-                    src="https://s2.loli.net/2022/11/06/vCBINbpy5QVkg4i.png"
-                  />
-                </div>
-              </div>
-            </>
-          )}
+          {participantsView && <ParticipantSectionContent />}
 
           {sponsorView && <SponsorSectionContent />}
         </div>

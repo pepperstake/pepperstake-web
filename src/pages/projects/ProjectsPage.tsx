@@ -4,7 +4,6 @@ import { formatEther} from "ethers/lib/utils";
 
 const ProjectPage = () => {
   const { projects } = useAllProjects();
-  console.log(projects);
   return (
     <div className="my-10 mx-10">
       <h1 className="text-3xl font-bold font-mono">Projects on PepperStake</h1>
