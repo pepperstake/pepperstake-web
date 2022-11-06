@@ -12,7 +12,6 @@ const SummaryStats = () => {
   useEffect(() => {
     const fetchSummaryStats = async () => {
       const res = await axios.get("/api/protocol-summary");
-      console.log(res.data);
       setProtocolStats(res.data);
     };
     fetchSummaryStats();
