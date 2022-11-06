@@ -19,9 +19,9 @@ const DropdownNotification = (n: any) => {
     <>
       <a href={notification.cta}>
         <div className=" mx-2 my-2 border border-2 border-black rounded-xl bg-[#FDBBBB]">
-          <div className="mx-2 my-2">
+          <div className="mx-2 my-2 ">
             <p>{notification.title}</p>
-            <p>{formattedMessage}</p>
+            <p className="text-ellipsis overflow-hidden">{formattedMessage}</p>
           </div>
         </div>
       </a>
