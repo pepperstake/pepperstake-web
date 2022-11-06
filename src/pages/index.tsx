@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import Link from "next/link";
 const Home: NextPage = () => {
   return (
+    <>
     <div className="flex">
       <div className=" absolute w-3/4"></div>
       <SummaryStats />
@@ -27,8 +28,16 @@ const Home: NextPage = () => {
         </Link>
       </div>
 
-      <img src="https://s2.loli.net/2022/11/06/INauPdXBgLEJ1iw.png" />
+  
+
     </div>
+        <img src="https://s2.loli.net/2022/11/06/INauPdXBgLEJ1iw.png" />
+        <img src="https://s2.loli.net/2022/11/06/u3OAtkxsh2YNgpo.png" />
+        <img src="https://s2.loli.net/2022/11/06/cFYWaiv6lyMoTrz.png" />
+        <img src="https://s2.loli.net/2022/11/06/D7PNMiLdhHwsB8x.png" />
+        <img src="https://s2.loli.net/2022/11/06/ho13NKupa76Jn59.png" />
+
+        </>
   );
 };
 

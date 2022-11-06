@@ -35,10 +35,18 @@ const IsParticipantContent = () => {
             <b className="text-[#CE8888]"> view txn</b>
           </a>
         </p>
-        <p className=" mt-6 font-mono font-bold text-black">
+        <p className=" mt-3 font-mono font-bold text-black">
           RETURN WINDOW IN <b className="font-bold text-5xl">{daysRemaining}</b>{" "}
           DAYS
         </p>
+        <div className="flex">
+        <p className=" mt-8 font-mono font-bold text-black">
+          COMPLETED YOUR TASK? 
+        </p>
+        <a style={{ cursor: "pointer" }}>
+        <img className="h-10 mt-6 ml-4" src="https://s2.loli.net/2022/11/06/BGr5UDPYn7fEbtA.png"></img>
+        </a>
+        </div>
         <button onClick={handlePingSponsor}>Ping your Sponsors</button>
       </div>
     </div>
