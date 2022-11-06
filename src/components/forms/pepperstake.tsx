@@ -254,7 +254,7 @@ export default function PepperStake() {
               </div>
 
               <div className="mt-4 ">
-                <p className=" font-mono text-[#994B4B] bg-[#FEC90D] text-xs font-bold py-4 px-4  block max-w-lg w-full bg-[#FAEEE2] rounded-xl border border-2 border-[#4A2222] ">
+                <p className=" font-mono text-[#994B4B] bg-[#FEC90D] text-xs font-bold py-4 px-4  block max-w-lg w-full  rounded-xl border border-2 border-[#4A2222] ">
                   <span>
                     {" "}
                     <img
@@ -453,7 +453,7 @@ export default function PepperStake() {
                 </div>
 
                 <div className="mt-4 ">
-                  <p className=" font-mono text-[#994B4B] bg-[#FEC90D] text-xs font-bold py-4 px-4  block max-w-lg w-full bg-[#FAEEE2] rounded-xl border border-2 border-[#4A2222] ">
+                  <p className=" font-mono text-[#994B4B] bg-[#FEC90D] text-xs font-bold py-4 px-4  block max-w-lg w-full rounded-xl border border-2 border-[#4A2222] ">
                     <span>
                       {" "}
                       <img
@@ -625,6 +625,8 @@ export default function PepperStake() {
 
               <div className="content-center mt-4 h-48 text-lg font-bold  py-4 px-4  block max-w-lg w-full bg-[#FAEEE2] rounded-xl  border-gray-300">
                 <div className="my-16 mx-20 ">
+                <label htmlFor="file-upload" className="custom-file-upload" style={{ cursor: "pointer" }}>
+
                   <a style={{ cursor: "pointer" }}>
                     <img
                       className=""
@@ -637,6 +639,7 @@ export default function PepperStake() {
                     accept="image/x-png,image/gif,image/jpeg"
                     {...register("image")}
                   />
+                  </label>
                 </div>
               </div>
 
