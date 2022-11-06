@@ -1,9 +1,26 @@
+import { ProjectContext } from "contexts/ProjectContext";
 import { useStake } from "hooks/contract/useStake";
 import { useIsParticipant } from "hooks/graph/useIsParticipant";
-import React from "react";
+import React, { useContext } from "react";
+import { sendPingSponsorPushNotification } from "utils/push";
+import { useAccount } from "wagmi";
 
 const IsParticipantContent = () => {
   const daysRemaining = 2;
+  const { address } = useAccount();
+  const { supervisors, address: pepperstakeAddress } =
+    useContext(ProjectContext);
+
+  const handlePingSponsor = async () => {
+    if (!supervisors || !address || !pepperstakeAddress) {
+      return;
+    }
+    await sendPingSponsorPushNotification(
+      supervisors,
+      address,
+      pepperstakeAddress
+    );
+  };
 
   return (
     <div className="flex">
@@ -22,6 +39,7 @@ const IsParticipantContent = () => {
           RETURN WINDOW IN <b className="font-bold text-5xl">{daysRemaining}</b>{" "}
           DAYS
         </p>
+        <button onClick={handlePingSponsor}>Ping your Sponsors</button>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import { useStake } from "hooks/contract/useStake";
 import { useSponsor } from "hooks/contract/useSponsor";
 import { useReturnStake } from "hooks/contract/useReturnStake";
 import { usePostReturnWindowDistribution } from "hooks/contract/usePostReturnWindowDistribution";
-import { PushNotificationApiRequestPayload } from "pages/api/pushNotification";
+import { PushNotificationApiRequestPayload } from "pages/api/ping-sponsor";
 import axios from "axios";
 
 const JmillPage = () => {
