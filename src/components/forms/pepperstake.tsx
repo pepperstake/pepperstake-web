@@ -57,7 +57,7 @@ export default function PepperStake() {
       "shouldParticipantsShareUnreturnedStake"
     ),
     shouldUseSupervisorInactionGuard: watch("shouldUseSupervisorInactionGuard"),
-    metadataUri,
+    metadataURI: metadataUri,
   };
 
   const { write } = useDeployPepperStake(deployData);
