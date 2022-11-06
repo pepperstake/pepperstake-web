@@ -1,6 +1,7 @@
 // app main page
 import ProjectContent from "components/project/ProjectContent";
 import { useRouter } from "next/router";
+import ProjectMetadataProvider from "providers/ProjectMetadataProvider";
 import ProjectProvider from "providers/ProjectProvider";
 
 export default function ProjectPage() {
@@ -9,7 +10,9 @@ export default function ProjectPage() {
 
   return (
     <ProjectProvider address={address}>
-      <ProjectContent />
+      <ProjectMetadataProvider>
+        <ProjectContent />
+      </ProjectMetadataProvider>
     </ProjectProvider>
   );
 }

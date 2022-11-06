@@ -2,15 +2,14 @@
 import ParticipantSectionContent from "components/project/ParticipantSectionContent";
 import SponsorSectionContent from "components/project/SponsorSectionContent";
 import { ProjectContext } from "contexts/ProjectContext";
+import { ProjectMetadataContext } from "contexts/ProjectMetadataContext";
 import React, { useContext } from "react";
 import { useState } from "react";
 import { fromWad } from "utils/number";
 export default function ProjectContent() {
-  const title = "ETHSF";
+  const { name, description, imageUrl } = useContext(ProjectMetadataContext);
   const startDate = "2022-11-04";
   const endDate = "2022-11-06";
-  const description =
-    "ETH SF is a web3 hackathon that starts at 11/4/2022 and ends at 11/6/2022. We are awesome people and we give our participants their stake on time.";
   const inactionGuard = "true";
   const shareUnreturnedStake = "false";
   const totalCurrentStake = "10";
@@ -129,12 +128,9 @@ export default function ProjectContent() {
   return (
     <div className="bg-[#FDBBBB] mx-6 my-6 border border-2 rounded-3xl border-[#4A2222]">
       <div className="flex mx-24  mt-16">
-        <img
-          className="h-44 w-44"
-          src="https://s2.loli.net/2022/11/06/quhZY5Lje7gD2tk.png"
-        />
+        <img className="h-44 w-44" src={imageUrl} />
         <p className="mx-10 font-mono text-[#4A2222] text-5xl font-bold">
-          {title}
+          {name}
           <p className="mt-2 flex-row text-sm font-normal">
             Starts: <b>{startDate}</b> Ends:<b>{endDate}</b>
           </p>

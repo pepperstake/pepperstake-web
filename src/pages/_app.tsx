@@ -17,6 +17,7 @@ import {
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { UrqlProvider } from "providers/urqlProvider";
+import ReactQueryProvider from "providers/ReactQueryProvider";
 
 const { chains, provider, webSocketProvider } = configureChains(
   [chain.goerli],
@@ -54,13 +55,15 @@ const wagmiClient = createClient({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <UrqlProvider>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider appInfo={demoAppInfo} chains={chains}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </RainbowKitProvider>
-      </WagmiConfig>
+      <ReactQueryProvider>
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider appInfo={demoAppInfo} chains={chains}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </ReactQueryProvider>
     </UrqlProvider>
   );
 }
