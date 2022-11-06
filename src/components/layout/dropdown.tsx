@@ -9,15 +9,10 @@ export default function Dropdown() {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    console.log("hey");
-  }, [isOpen]);
-
-  useEffect(() => {
     const interval = setInterval(() => {
       if (address) {
         checkNotifications(address).then((notifications) => {
           setNotifications(notifications);
-          console.log(notifications);
         });
       }
     }, 5000);
