@@ -4,14 +4,21 @@ import { useIsParticipant } from "hooks/graph/useIsParticipant";
 import React, { useContext } from "react";
 import { sendPingSponsorPushNotification } from "utils/push";
 import { useAccount } from "wagmi";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const IsParticipantContent = () => {
   const daysRemaining = 2;
   const { address } = useAccount();
   const { supervisors, address: pepperstakeAddress } =
     useContext(ProjectContext);
 
+    const notifySupervisor = () => toast.info("Notifying Supervisor(s) 😉", {
+      position: "bottom-right",
+      theme: "light"
+    });
+
   const handlePingSponsor = async () => {
+    notifySupervisor();
     if (!supervisors || !address || !pepperstakeAddress) {
       return;
     }
@@ -23,6 +30,7 @@ const IsParticipantContent = () => {
   };
 
   return (
+    <>
     <div className="flex">
       <img
         className="mx-10 my-10 w-48"
@@ -44,12 +52,15 @@ const IsParticipantContent = () => {
           COMPLETED YOUR TASK? 
         </p>
         <a style={{ cursor: "pointer" }}>
-        <img className="h-10 mt-6 ml-4" src="https://s2.loli.net/2022/11/06/BGr5UDPYn7fEbtA.png"></img>
+        <img onClick={handlePingSponsor} className="h-10 mt-6 ml-4" src="https://s2.loli.net/2022/11/06/BGr5UDPYn7fEbtA.png"></img>
         </a>
         </div>
-        <button onClick={handlePingSponsor}>Ping your Sponsors</button>
+        {/* <button onClick={handlePingSponsor}>Ping your Sponsors</button> */}
       </div>
+      <ToastContainer className="toast-container"  pauseOnFocusLoss={false}/>
+
     </div>
+    </>
   );
 };
 
@@ -77,6 +88,7 @@ const IsEligableParticipantContent = () => {
           />
         </div>
       </div>
+
     </div>
   );
 };
