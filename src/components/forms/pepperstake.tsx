@@ -328,7 +328,6 @@ export default function PepperStake() {
               <div className="mt-4 ">
                 <p className=" font-mono text-[#994B4B] bg-[#FEC90D] text-xs font-bold py-4 px-4  block max-w-lg w-full  rounded-xl border border-2 border-[#4A2222] ">
                   <span>
-                    {" "}
                     <img
                       className="h-7 w-7 float-left mr-3"
                       src="https://s2.loli.net/2022/11/05/TY4CeJwBZRrfMc5.png"
