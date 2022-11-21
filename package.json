@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@cowprotocol/ts-dune-client": "^0.0.0-beta.2",
+    "@pepperstake/pepperstake-contracts": "^0.1.1",
     "@pushprotocol/restapi": "^0.2.1",
     "@rainbow-me/rainbowkit": "workspace:*",
     "@types/react-select": "^5.0.1",

@@ -1,14 +1,15 @@
-import pepperStakeDeployer from "constants/abi/PepperStakeDeployer.json";
-import PepperStake from "constants/abi/PepperStake.json";
+import pepperstakeDeployer from "@pepperstake/pepperstake-contracts/out/PepperStakeDeployer.sol/PepperStakeDeployer.json";
+import pepperstake from "@pepperstake/pepperstake-contracts/out/PepperStake.sol/PepperStake.json";
+import pepperstakeGoerliDeploy from "@pepperstake/pepperstake-contracts/broadcast/Deploy.s.sol/5/run-latest.json";
 
 export const contracts = {
   goerli: {
     pepperStakeDeployer: {
-      address: "0x2d328072a0892925d6b9cdb017724d4978c04792",
-      abi: pepperStakeDeployer.abi,
+      address: pepperstakeGoerliDeploy.transactions[0].contractAddress,
+      abi: pepperstakeDeployer.abi,
     },
     pepperStake: {
-      abi: PepperStake.abi,
+      abi: pepperstake.abi,
     },
   },
 };
