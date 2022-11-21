@@ -50,6 +50,15 @@ export default function CreateProjectPage() {
       }
     );
 
+    const noMetadataUriNotify = () =>
+    toast.error(
+      "Contract is not deployed properly, please try again!",
+      {
+        position: "bottom-right",
+        theme: "dark",
+      }
+    );
+
   const imageUploadedNotify = () =>
     toast.success("Image uploaded! 🥳", {
       position: "bottom-right",
@@ -92,7 +101,7 @@ export default function CreateProjectPage() {
       shouldUseSupervisorInactionGuard: true,
       projectName: "",
       projectDescription: "",
-      image: undefined,
+      image: undefined,    
     },
   });
   const supervisors = watch("supervisors");
@@ -131,11 +140,9 @@ export default function CreateProjectPage() {
 
   const [metadataUri, setMetadataUri] = React.useState<string>("");
   const deployData = {
-    supervisors: supervisors,
+    supervisors: watch("supervisors"),
     stakeAmount: parseEther(watch("stakeAmount")),
-    unreturnedStakeBeneficiaries: [
-      "0x2c8A7A737155e04c9fEc639520ed72626040763B",
-    ],
+    unreturnedStakeBeneficiaries: watch("unreturnedStakeBeneficiaries"),
     returnWindowDays: parseInt(watch("returnWindowDays")),
     maxParticipants: parseInt(watch("maxParticipants")),
     shouldParticipantsShareUnreturnedStake: watch(
@@ -144,8 +151,9 @@ export default function CreateProjectPage() {
     shouldUseSupervisorInactionGuard: watch("shouldUseSupervisorInactionGuard"),
     metadataURI: metadataUri,
   };
+  console.log ("deployData", deployData);
 
-  const { write } = useDeployPepperStake(deployData);
+  const {data, write, isSuccess } = useDeployPepperStake(deployData);
   const uploadImage = async () => {
     uploadImageToIpfsNotify();
     const data = new FormData();
@@ -161,17 +169,25 @@ export default function CreateProjectPage() {
   };
 
   const uploadMetadata = async (imageCid: string) => {
+    console.log("imageCid", imageCid);
     uploadMetadataToIpfsNotify();
     const { projectName, projectDescription } = getValues();
+    console.log("projectName", projectName);
+    console.log("projectDescription", projectDescription);
     const data: PinMetadataRequestPayload = {
       name: projectName,
       description: projectDescription,
       imageCid,
     };
     const res = await axios.post("/api/pin-metadata", data);
-    setMetadataUri(`ipfs://${res.data.cid}`);
-    console.log("metadataUri", metadataUri);
+    const metadataCid = `ipfs://${res.data.cid}`
+    setMetadataUri(metadataCid);
+    console.log("metadataUri1", metadataUri);
   };
+
+  useEffect(() => {
+    console.log("metadataUri2", metadataUri);
+  }, [metadataUri]);
 
   const onSubmit = async () => {
     console.log("submitting");
@@ -179,10 +195,12 @@ export default function CreateProjectPage() {
       noSupervisorNotify();
       return;
     }
+    console.log("supervisors", getValues("supervisors"));
     if (!getValues("stakeAmount") || getValues("stakeAmount") === "0") {
       noStakeAmountNotify();
       return;
     }
+    console.log("stakeAmount", getValues("stakeAmount"));
     if (
       getValues("image").length === 0 ||
       getValues("projectName") === "" ||
@@ -191,13 +209,28 @@ export default function CreateProjectPage() {
       noMetadataNotify();
       return;
     }
+    console.log("image", getValues("image"));
+    console.log("projectName", getValues("projectName"));
+    console.log("projectDescription", getValues("projectDescription"));
 
     try {
       const imageCid = await uploadImage();
       console.log("imageCid", imageCid);
       await uploadMetadata(imageCid);
-      write?.();
-      contractCreationNotify();
+      if(metadataUri!="") {
+        write?.();
+        contractCreationNotify();
+        // {isSuccess && <>
+        //   <div>Transaction: {JSON.stringify(data)}</div>
+        //   <div>Hash: {JSON.stringify(data?.hash)}</div>
+
+        //   </>
+        // }
+
+      }else{
+        console.log("metadataUri not set");
+        noMetadataUriNotify();
+      }
     } catch (err) {
       console.error(err);
     }

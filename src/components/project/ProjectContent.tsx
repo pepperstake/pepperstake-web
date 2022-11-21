@@ -5,17 +5,40 @@ import { ProjectContext } from "contexts/ProjectContext";
 import { ProjectMetadataContext } from "contexts/ProjectMetadataContext";
 import React, { useContext } from "react";
 import { useState } from "react";
+import { formatEther } from "ethers/lib/utils";
 import { fromWad } from "utils/number";
+import { Affix, Modal} from 'antd';
+import SupervisorSectionContent from "./SupervisorSectionContent";
 export default function ProjectContent() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [container, setContainer] = useState<HTMLDivElement | null>(null);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const { name, description, imageUrl } = useContext(ProjectMetadataContext);
+  const { address, shouldUseSupervisorInactionGuard, stakeAmount, stakeEvents, sponsorEvents, returnStakeEvents,
+    shouldParticipantsShareUnreturnedStake, unreturnedStakeBeneficiaries} = useContext(ProjectContext);
   const startDate = "2022-11-04";
   const endDate = "2022-11-06";
-  const inactionGuard = "true";
-  const shareUnreturnedStake = "false";
-  const totalCurrentStake = "10";
-  const totalParticipants = "20";
-
-  const { stakeAmount } = useContext(ProjectContext);
+  const inactionGuard = shouldUseSupervisorInactionGuard;
+  const shareUnreturnedStake = shouldParticipantsShareUnreturnedStake;
+  const totalParticipants = stakeEvents?.length;
+  console.log(stakeAmount);
+  let totalCurrentStake = 0;
+  if(stakeAmount){
+    totalCurrentStake = totalParticipants! * (+formatEther(stakeAmount!));
+  }
+  // const totalCurrentStake = 0;
+  console.log(inactionGuard)
 
   const [creatorView, setCreatorView] = useState(true);
   const [supervisorView, setSupervisorView] = useState(false);
@@ -51,18 +74,53 @@ export default function ProjectContent() {
     setSponsorView(true);
   };
 
-  const activityList = [
-    { type: "stake returned", address: "ethglobal.eth", amount: "5" },
-    { type: "staked", address: "0x42424242424242", amount: "0.5" },
-    { type: "sponsored", address: "0x111111111111", amount: "0.111" },
-    { type: "staked", address: "lucyqiu.eth", amount: "0.5" },
-  ];
+  const returnStakeEventList = returnStakeEvents?.map((event) => {
+    return {
+      type: "stake returned",
+      address: event.supervisor,
+      amount: fromWad(event.amount),
+      timestamp: event.timestamp,
+      completingParticipant: event.completingParticipants,
+      txHash: event.txHash,
+    };
+  });
 
-  const participantsList = [
-    { address: "0x42424242424242", amount: "0.5" },
-    { address: "jmill.eth", amount: "0.5" },
-    { address: "lucyqiu.eth", amount: "0.5" },
-  ];
+
+  const sponsorList = sponsorEvents?.map((sponsor) => {
+    return {
+      type:"sponsored",
+      address: sponsor.participant,
+      amount: fromWad(sponsor.amount),
+      txHash: sponsor.txHash,
+      timestamp: sponsor.timestamp,
+    };
+  });
+
+  const participantsList = 
+    stakeEvents?.map((stakeEvent) => {
+      return {
+        type: "staked",
+        address: stakeEvent.participant,
+        amount: fromWad(stakeEvent.amount),
+        txHash: stakeEvent.txHash,
+        timestamp: stakeEvent.timestamp,
+      };
+    });
+
+  // const activityList = [...sponsorList!, ...participantsList!, ...returnStakeEventList!];
+  const activityList = sponsorList?.concat(participantsList!).concat(returnStakeEventList!);
+  if(activityList){
+    activityList.sort ((a, b) => {
+      return b.timestamp - a.timestamp;
+    });
+  }
+  // const activityList = [
+  //   { type: "stake returned", address: "ethglobal.eth", amount: "5" },
+  //   { type: "staked", address: "0x42424242424242", amount: "0.5" },
+  //   { type: "sponsored", address: "0x111111111111", amount: "0.111" },
+  //   { type: "staked", address: "lucyqiu.eth", amount: "0.5" },
+  // ];
+
 
   const renderFn = (activity: any) => {
     switch (activity.type) {
@@ -77,7 +135,7 @@ export default function ProjectContent() {
                 </p>
               </div>
               <div className="w-1/4 pt-5">
-                <a style={{ cursor: "pointer" }}>
+                <a href={`https://goerli.etherscan.io/tx/${activity.txHash}`} style={{ cursor: "pointer" }}>
                   <b className="text-[#CE8888] "> view txn</b>
                 </a>
               </div>
@@ -94,7 +152,7 @@ export default function ProjectContent() {
                 </p>
               </div>
               <div className="w-1/4 pt-5">
-                <a style={{ cursor: "pointer" }}>
+                <a href={`https://goerli.etherscan.io/tx/${activity.txHash}`} style={{ cursor: "pointer" }}>
                   <b className="text-[#CE8888] "> view txn</b>
                 </a>
               </div>
@@ -113,7 +171,7 @@ export default function ProjectContent() {
                 </p>
               </div>
               <div className="w-1/4 pt-5">
-                <a style={{ cursor: "pointer" }}>
+                <a href={`https://goerli.etherscan.io/tx/${activity.txHash}`} style={{ cursor: "pointer" }}>
                   <b className="text-[#CE8888] "> view txn</b>
                 </a>
               </div>
@@ -128,7 +186,7 @@ export default function ProjectContent() {
   return (
     <div className="bg-[#FDBBBB] mx-6 my-6 border border-2 rounded-3xl border-[#4A2222]">
       <div className="flex mx-24  mt-16">
-        <img className="h-44 w-44" src={imageUrl} />
+        <img className=" w-1/4" src={imageUrl? imageUrl : 'https://s2.loli.net/2022/11/21/vlFEB4WmYHfDxj6.png'} />
         <div className="mx-10 font-mono text-[#4A2222] text-5xl font-bold">
           {name}
           <p className="mt-2 flex-row text-sm font-normal">
@@ -137,16 +195,19 @@ export default function ProjectContent() {
           <p className="mt-2 text-[#994B4B] text-sm font-mono">{description}</p>
           <p className="mt-2 text-[#4A2222] text-sm font-mono font-normal">
             {" "}
-            Inaction Guard:<b>{inactionGuard}</b> Participants Share Unreturned
-            Stake: <b>{shareUnreturnedStake}</b>
+            Inaction Guard:<b>{inactionGuard?.toString()}</b> Participants Share Unreturned
+            Stake: <b>{shareUnreturnedStake?.toString()}</b>
           </p>
           <p className="mt-2 text-[#4A2222] text-sm font-mono font-normal">
             {" "}
             Unreturned Stake Beneficiaries:{" "}
-            <a href="">
-              {" "}
-              <b>view list</b>
-            </a>
+
+            <b onClick={showModal} style={{cursor:"pointer"}}>view list</b>
+            <Modal title="Unreturned Stake Beneficiaries" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+              {unreturnedStakeBeneficiaries?.map((beneficiary) => (
+                <p>{beneficiary}</p>
+              ))}
+          </Modal>
           </p>
         </div>
       </div>
@@ -195,14 +256,13 @@ export default function ProjectContent() {
             src="https://s2.loli.net/2022/11/06/yd3JlOc8tnGWACH.png"
           />
         </div>
-
         <div className="w-3/4 my-4 border border-2 rounded-xl border-[#4A2222] bg-[#FAEEE1]">
           {creatorView && (
             <>
               <div className="mx-5 my-5">
                 <>
                   <p className="font-bold font-mono">Activities</p>
-                  {activityList.map((activity, idx) => (
+                  {activityList && activityList.map((activity, idx) => (
                     <div
                       className="my-4 rounded-3xl h-16 bg-[#E9DDD1]"
                       key={idx}
@@ -215,69 +275,9 @@ export default function ProjectContent() {
             </>
           )}
 
-          {supervisorView && isSupervisor && (
-            <>
-              <div className="mx-5 my-5">
-                <>
-                  <div className="flex">
-                    <p className="flex font-bold font-mono">Participants</p>
 
-                    <p className=" flex absolute right-32 font-bold font-mono text-black">
-                      <input
-                        id="default-checkbox"
-                        type="checkbox"
-                        value=""
-                        className=" mr-2 mt-1 flex w-4 h-4 accent-[#FDBBBB] bg-gray-100 rounded border border-2 border-black "
-                      />
-                      Select All
-                    </p>
-                  </div>
-                  {participantsList.map((participant, idx) => (
-                    <div
-                      className=" flex my-4 rounded-3xl h-16 bg-[#E9DDD1]"
-                      key={idx}
-                    >
-                      <input
-                        id="default-checkbox"
-                        type="checkbox"
-                        value=""
-                        className=" flex ml-4 mt-6 w-4 h-4 accent-[#FDBBBB] bg-gray-100 rounded border border-2 border-black "
-                      />
+          {supervisorView && <SupervisorSectionContent/>}
 
-                      <p className="flex mx-4 py-5 font-bold font-mono text-black">
-                        {participant.address}
-                      </p>
-                    </div>
-                  ))}
-                </>
-              </div>
-              <div className="flex">
-                <div className="w-3/4"></div>
-                <div className="w-1/4">
-                  <img
-                    className="pr-10  py-5"
-                    src="https://s2.loli.net/2022/11/06/kItTN9gb6RdUieH.png"
-                  />
-                </div>
-              </div>
-            </>
-          )}
-
-          {supervisorView && !isSupervisor && (
-            <>
-              <div className="">
-                <img
-                  className="mx-80 my-10 w-36 place-content-center"
-                  src="https://s2.loli.net/2022/11/06/CxWUZsPjXqnyiEN.png"
-                />
-                <div className=" mx-5 mt-10 mb-6">
-                  <p className=" mx-48 font-mono font-bold text-black">
-                    YOU DO NOT HAVE ACCESS TO SUPERVISORS VIEW
-                  </p>
-                </div>
-              </div>
-            </>
-          )}
 
           {participantsView && <ParticipantSectionContent />}
 

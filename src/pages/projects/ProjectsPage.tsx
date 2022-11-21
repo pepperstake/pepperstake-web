@@ -5,6 +5,7 @@ import ProjectCard from "components/ProjectCard";
 
 const ProjectPage = () => {
   const { projects } = useAllProjects();
+  console.log("projects", projects);
   return (
     <div className="my-10 mx-10">
       <div className="flex">
@@ -40,8 +41,8 @@ const ProjectPage = () => {
       <div className="grid grid-cols-2 gap-4 mt-10 mx-4">
         {projects &&
           projects.map((project: any) => (
-            <div key={project.address}>
-              <ProjectCard project={project} />
+            <div key={project.pepperStakeContract.address}>
+              <ProjectCard project={project.pepperStakeContract} />
             </div>
           ))}
       </div>
