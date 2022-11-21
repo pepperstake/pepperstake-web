@@ -6,7 +6,7 @@ const Home: NextPage = () => {
     <>
     <div className="flex">
       <div className=" absolute w-3/4"></div>
-      <SummaryStats />
+      {/* <SummaryStats /> */}
       <div className=" absolute right-[38rem] top-[36rem]">
         <Link href={"/projects/create"}>
           <a style={{ cursor: "pointer" }}>

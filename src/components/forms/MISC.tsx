@@ -57,8 +57,8 @@ const MISC: React.FC<{
                     {...register("shouldUseSupervisorInactionGuard")}
 
                   >
-                    <option value="false">True</option>
-                    <option value="true">False</option>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
                   </select>
                 </div>
 

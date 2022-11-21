@@ -3,10 +3,11 @@ import { formatEther } from "ethers/lib/utils";
 import useProjectMetadata from "hooks/ipfs/useProjectMetadata";
 import Link from "next/link";
 import React from "react";
-
+import { ethers } from "ethers";
 const ProjectCard = (p: any) => {
   const { project } = p;
   const { data: metadata } = useProjectMetadata(project.metadataURI);
+  
   return (
     <Link href={`/projects/${project.address}`}>
       <a style={{ cursor: "pointer" }}>
@@ -35,12 +36,14 @@ const ProjectCard = (p: any) => {
               <b> per stake</b>
             </p>
             <p className=" text-xs font-normal font-mono text-[#994B4B]">
-              <b className="text-lg text-[#4A2222]">{formatEther(0)} ETH</b>{" "}
+
+              <b className="text-lg text-[#4A2222]">{+formatEther(project.stakeAmount)*(project.stakeEvents.length)} ETH</b>{" "}
+
               <b> current total stake</b>
             </p>
             <p className=" text-xs font-normal font-mono text-[#994B4B]">
-              <b className="text-lg text-[#4A2222]">{0}</b>{" "}
-              <b> people have staked</b>
+              <b className="text-lg text-[#4A2222]">{project.stakeEvents.length}</b>{" "}
+              <b> {project.stakeEvents.length===1 ? 'person has staked' : 'people have staked'}</b>
             </p>
             <p className="text-[#994B4B] font-bold text-mono text-xs">
               {metadata?.description ? metadata.description : ""}

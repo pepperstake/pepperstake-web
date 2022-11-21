@@ -18,13 +18,42 @@ const allProjectsQuery = gql`
   }
 `;
 
+const allProjectsQueryByTime = gql`
+  query allProjectsQueryByTime {
+    deployPepperStakeEvents(orderedBy:timestamp orderDirection: desc){
+    	id
+    	txHash
+      timestamp
+      pepperStakeContract{
+        address
+        creator
+        supervisors
+        stakeAmount
+        unreturnedStakeBeneficiaries
+        returnWindowDays
+        maxParticipants
+        shouldParticipantsShareUnreturnedStake
+        shouldUseSupervisorInactionGuard
+        metadataURI
+        stakeEvents{
+        participant
+        amount
+        txHash
+        timestamp
+    }
+    }
+    
+  }
+  }
+`;
 export function useAllProjects() {
   const [result] = useQuery({
-    query: allProjectsQuery,
+    query: allProjectsQueryByTime,
   });
   const { data, fetching, error } = result;
+  console.log("data", data);
   return {
-    projects: data?.pepperStakeContracts,
+    projects: data?.deployPepperStakeEvents,
     fetching,
     error,
   };
