@@ -205,7 +205,7 @@ export default function ProjectContent() {
             <b onClick={showModal} style={{cursor:"pointer"}}>view list</b>
             <Modal title="Unreturned Stake Beneficiaries" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
               {unreturnedStakeBeneficiaries?.map((beneficiary) => (
-                <p>{beneficiary}</p>
+                <p key={beneficiary}>{beneficiary}</p>
               ))}
           </Modal>
           </p>
